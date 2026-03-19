@@ -76,13 +76,16 @@ import dogsDiffc from "./assets/dogs-diffc.png"
 import dogsTrue from "./assets/dogs-true.png"
 import dogsMsillm from "@/assets/dogs-msillm.jpg"
 
-<Picture src={exploration} alt="Memory-driven multi-view exploration progressively resolves ambiguous object captions into a consistent object-level description. (a) the agent predicts a caption for the observed object; (b) a different caption is predicted from a different viewpoint; (c) a consistent caption is predicted based on the episodic object memory; (d) the predicted caption for the object remains consistent." />
+<Wide>
+  <Picture src={exploration} alt="Memory-driven multi-view exploration progressively resolves ambiguous object captions into a consistent object-level description. (a) the agent predicts a caption for the observed object; (b) a different caption is predicted from a different viewpoint; (c) a consistent caption is predicted based on the episodic object memory; (d) the predicted caption for the object remains consistent." />
+</Wide>
 
 <HighlightedSection>
 
 ## Abstract
 
-This is a template you can use to create a professional project page for your research paper. [See the code for the template and instructions on how to use it yourself on GitHub](https://github.com/RomanHauksson/academic-project-astro-template). It's made with the [Astro web framework](https://astro.build/) and styled with [Tailwind](https://tailwindcss.com/). You write the content in [MDX](https://mdxjs.com/), which enables markdown formatting like **bold**, _italics_, and ~strikethrough~, as well as custom components like <SmallCaps>small caps.</SmallCaps>
+Vision–Language Models (VLMs) often yield inconsistent descriptions of the same object across viewpoints, hindering the ability of embodied agents to construct consistent semantic representations over time. Previous methods resolved inconsistencies using offline multi-view aggregation or multi-stage pipelines that decouple exploration, data association, and caption learning, with limited capacity to reason over previously observed objects. In this paper, we introduce a unified, memory-augmented Vision–Language agent that simultaneously handles data association, object captioning, and exploration policy within a single autoregressive framework. The model processes the current RGB observation, a top-down explored map, and an object-level episodic memory serialized into object-level tokens, ensuring persistent object identity and semantic consistency across extended sequences. To train the model in a self-supervised manner, we collect a dataset in photorealistic 3D environments using a disagreement-based policy and a pseudo-captioning model that enforces consistency across multi-view caption histories. 
+Extensive evaluation on a manually annotated object-level test set, demonstrate improvements of up to +11.86\% in standard captioning scores and +7.39\% in caption self-similarity over baseline models, while enabling scalable performance through a compact scene representation.
 
 </HighlightedSection>
 
