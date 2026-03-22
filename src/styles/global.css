@@ -160,6 +160,34 @@ main .katex-display {
   --outline: var(--color-zinc-500);
 }
 
+/* HM3D results: vertical rule between caption–reference CS (col 7) and cross-view consistency (col 8+) */
+main .hm3d-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+main .hm3d-results-table th,
+main .hm3d-results-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-zinc-200);
+}
+main .hm3d-results-table th:first-child,
+main .hm3d-results-table td:first-child {
+  text-align: left;
+}
+main .hm3d-results-table th:not(:first-child),
+main .hm3d-results-table td:not(:first-child) {
+  text-align: right;
+}
+main .hm3d-results-table thead th {
+  border-bottom: 2px solid var(--color-zinc-300);
+  font-weight: 600;
+}
+main .hm3d-results-table th:nth-child(8),
+main .hm3d-results-table td:nth-child(8) {
+  border-left: 2px solid var(--color-zinc-400);
+}
+
 @layer base {
   * {
     @apply border-border outline-outline/50 wrap-break-word;
