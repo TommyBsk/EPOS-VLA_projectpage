@@ -14,7 +14,13 @@ const { src, alt, priority = false, invertInDarkMode = false } = Astro.props;
 let image: ImageMetadata;
 
 if (typeof src === "string") {
-  image = await renderPDF(src);
+  if (src.endsWith(".pdf")) {
+    image = await renderPDF(src);
+  } else {
+    throw new Error(
+      `Picture: string src must be a .pdf path (got "${src}"). Import raster images instead: import img from "./assets/foo.png" and pass src={img}.`,
+    );
+  }
 } else {
   image = src;
 }

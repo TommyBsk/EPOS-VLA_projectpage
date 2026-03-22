@@ -6,9 +6,13 @@ export type Author = {
 };
 
 export type Link = {
-  url: string;
   name: string;
   icon?: string;
+  /** When set, the control is non-interactive (e.g. coming soon). */
+  disabled?: boolean;
+  url?: string;
+  /** Tooltip when `disabled` is true. */
+  hint?: string;
 };
 
 export type Note = {

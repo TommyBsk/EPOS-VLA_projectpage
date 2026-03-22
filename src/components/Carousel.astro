@@ -47,7 +47,7 @@ const slidesHtml = children.map((child) => child.outerHTML).join("");
     >
   </div>
   <div
-    class="carousel-viewport mx-[calc(var(--slide-gap)/-2)] w-[calc(var(--actual-text-width)+var(--slide-gap))]"
+    class="carousel-viewport mx-[calc(var(--slide-gap)/-2)] w-[calc(var(--actual-text-width)+var(--slide-gap))] overflow-x-clip"
   >
     <div
       class="carousel mx-[calc(var(--actual-inline-margin)*-1+var(--slide-gap)/2)] flex snap-x snap-mandatory scroll-pl-[calc(var(--actual-inline-margin)-var(--slide-gap)/2)] overflow-scroll px-[var(--actual-inline-margin)] [scrollbar-width:none]"

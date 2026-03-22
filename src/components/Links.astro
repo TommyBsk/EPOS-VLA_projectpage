@@ -7,18 +7,34 @@ interface Props {
 }
 
 const { links } = Astro.props;
+
+function isUnavailable(link: Link): boolean {
+  if (link.disabled === true) return true;
+  return !link.url?.trim();
+}
 ---
 
 <div class="not-prose flex flex-row flex-wrap justify-center gap-2">
   {
-    links.map((link) => (
-      <a
-        href={link.url}
-        class="flex flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white hover:bg-black hover:no-underline dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50"
-      >
-        {link.icon && <Icon name={link.icon} />}
-        <span>{link.name}</span>
-      </a>
-    ))
+    links.map((link) =>
+      isUnavailable(link) ? (
+        <span
+          class="flex cursor-not-allowed flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white opacity-60 dark:bg-zinc-200 dark:text-zinc-900"
+          title={link.hint ?? "Will be available soon"}
+          aria-disabled="true"
+        >
+          {link.icon && <Icon name={link.icon} />}
+          <span>{link.name}</span>
+        </span>
+      ) : (
+        <a
+          href={link.url ?? "#"}
+          class="flex flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white hover:bg-black hover:no-underline dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50"
+        >
+          {link.icon && <Icon name={link.icon} />}
+          <span>{link.name}</span>
+        </a>
+      ),
+    )
   }
 </div>

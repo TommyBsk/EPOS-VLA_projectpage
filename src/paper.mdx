@@ -6,7 +6,7 @@ authors:
     notes: ["1", "2"]
   - name: Stefano Rosa
     url: https://morpheus1820.github.io/publications/
-    notes: ["1"]  
+    notes: ["1"]
   - name: Tommaso Apicella
     url: https://apicis.github.io
     notes: ["1"]
@@ -19,7 +19,6 @@ authors:
   - name: Lorenzo Natale
     url: https://lornat75.github.io/index.html
     notes: ["1"]
-conference: 
 notes:
   - symbol: "1"
     text: Italian Institute of Technology
@@ -27,197 +26,167 @@ notes:
     text: University of Genoa
 links:
   - name: arXiv
-    url: 
     icon: academicons:arxiv
-#  - name: Paper
-#    url: 
-#    icon: ri:file-pdf-2-line
+    url: "#"
   - name: Code
-    url: 
     icon: ri:github-line
+    disabled: true
   - name: Data
-    url: 
     icon: ri:database-2-line
-#  - name: arXiv
-#    url: https://github.com/RomanHauksson/academic-project-astro-template
-#    icon: academicons:arxiv
-#  - name: Slides
-#    url: https://github.com/RomanHauksson/academic-project-astro-template
-#    icon: ri:slideshow-2-line
+    disabled: true
 
-# The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
-theme: device
-
-# This is the icon that appears in the user's browser tab. To customize, change the favicon.svg file in /public/, or add your own file to /public/ and change the filename here.
+theme: light
 favicon: favicon.svg
-
-# These keys are optional. If a link to your project page is in a Google search result, text message, or social media post, it will often appear as a "link preview card" based on its title, description, favicon, and thumbnail. After you publish your page, you can double check that these previews look right using [this tool](https://linkpreview.xyz/)
-description: Simple project page template for your research paper, built with Astro and Tailwind
+description: EPOS-VLM unifies data association, object-level captioning, and exploration in one memory-augmented vision–language agent for semantically consistent captions during embodied navigation.
 thumbnail: screenshot-light.png
 ---
 
-import Video from "./components/Video.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
-import SmallCaps from "./components/SmallCaps.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
-import ModelViewer from "./components/ModelViewer.astro"
-import TwoColumns from "./components/TwoColumns.astro";
-import YouTubeVideo from "./components/YouTubeVideo.astro";
+import Wide from "./components/Wide.astro";
 import Carousel from "./components/Carousel.astro";
 import CarouselSlide from "./components/CarouselSlide.astro";
-import Wide from "./components/Wide.astro";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
-import { Comparison } from "./components/Comparison.tsx";
 
-import outside from "./assets/outside.mp4";
-import exploration from "./assets/exploration_vis.png"
-import dogsDiffc from "./assets/dogs-diffc.png"
-import dogsTrue from "./assets/dogs-true.png"
-import dogsMsillm from "@/assets/dogs-msillm.jpg"
+import exploration from "./assets/exploration_vis.png";
+import vlaModel5 from "./assets/vla_model5.png";
+import captionExample from "./assets/caption_example.png";
+import trajURjpCob8MGw from "./assets/trajectories/URjpCob8MGw_combined.jpg";
+import trajGPyDUnjwZQy from "./assets/trajectories/GPyDUnjwZQy_combined.jpg";
+import trajOEPjPNSPmzL from "./assets/trajectories/oEPjPNSPmzL_combined.jpg";
+import traj77mMEyxhs44 from "./assets/trajectories/77mMEyxhs44_combined.jpg";
 
+<Wide>
+  <Figure>
+    <Picture
+      slot="figure"
+      src={exploration}
+      alt="Memory-driven multi-view exploration progressively resolves ambiguous object captions into a consistent object-level description. (a) the agent predicts a caption for the observed object; (b) a different caption is predicted from a different viewpoint; (c) a consistent caption is predicted based on the episodic object memory; (d) the predicted caption for the object remains consistent."
+    />
+    <span slot="caption">
+      Memory-driven multi-view exploration resolves ambiguous captions into a consistent object-level description: (a)–(b) inconsistent predictions across views; (c)–(d) consistency using episodic object memory.
+    </span>
+  </Figure>
+</Wide>
 
-<Picture src={exploration} alt="Memory-driven multi-view exploration progressively resolves ambiguous object captions into a consistent object-level description. (a) the agent predicts a caption for the observed object; (b) a different caption is predicted from a different viewpoint; (c) a consistent caption is predicted based on the episodic object memory; (d) the predicted caption for the object remains consistent." />
+This project page summarizes **EPOS-VLM**, our memory-augmented vision–language agent for **consistent object-level captions** during embodied exploration: motivation, method overview, key results, and qualitative **HM3D test** trajectories. Figures and tables are presented in a **light** theme so the layout matches the paper and renders reliably on all displays.
 
 <HighlightedSection>
 
-## Abstract
+## **Abstract**
 
-Vision–Language Models (VLMs) often yield inconsistent descriptions of the same object across viewpoints, hindering the ability of embodied agents to construct consistent semantic representations over time. Previous methods resolved inconsistencies using offline multi-view aggregation or multi-stage pipelines that decouple exploration, data association, and caption learning, with limited capacity to reason over previously observed objects. In this paper, we introduce a unified, memory-augmented Vision–Language agent that simultaneously handles data association, object captioning, and exploration policy within a single autoregressive framework. The model processes the current RGB observation, a top-down explored map, and an object-level episodic memory serialized into object-level tokens, ensuring persistent object identity and semantic consistency across extended sequences. To train the model in a self-supervised manner, we collect a dataset in photorealistic 3D environments using a disagreement-based policy and a pseudo-captioning model that enforces consistency across multi-view caption histories. 
-Extensive evaluation on a manually annotated object-level test set, demonstrate improvements of up to +11.86\% in standard captioning scores and +7.39\% in caption self-similarity over baseline models, while enabling scalable performance through a compact scene representation.
+Vision–Language Models (VLMs) often yield inconsistent descriptions of the same object across viewpoints, hindering the ability of embodied agents to construct consistent semantic representations over time. Previous methods resolved inconsistencies using offline multi-view aggregation or multi-stage pipelines that decouple exploration, data association, and caption learning, with limited capacity to reason over previously observed objects. In this paper, we introduce a **unified, memory-augmented Vision–Language agent** that simultaneously handles data association, object captioning, and exploration policy within a single autoregressive framework. The model processes the current RGB observation, a top-down explored map, and **object-level episodic memory** serialized into object-level tokens, ensuring persistent object identity and semantic consistency across extended sequences. To train the model in a self-supervised manner, we collect a dataset in photorealistic 3D environments using a disagreement-based policy and a pseudo-captioning model that enforces consistency across multi-view caption histories. Extensive evaluation on a manually annotated object-level test set demonstrates improvements of up to **+11.86\%** in standard captioning scores and **+7.39\%** in caption self-similarity over baseline models, while enabling scalable performance through a compact scene representation.
 
 </HighlightedSection>
 
-## Visuals
+## Motivation
 
-### Picture
+Humans build stable object understanding through embodied exploration; semantic consistency comes from **memory and repeated observations** across viewpoints, not from isolated frames. Off-the-shelf VLMs trained on static image–text pairs often produce **inconsistent object descriptions** as the agent moves, breaking object identity over time. Prior work improved consistency with offline aggregation or pipelines that separate exploration, association, and captioning—so the agent cannot **actively choose views** to resolve ambiguity.
 
-Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
+**Previous work.** In [*Embodied Image Captioning: Self-supervised Learning Agents for Spatially Coherent Image Descriptions*](https://hsp-iit.github.io/embodied-captioning/) (ICCV 2025, Highlight), we introduced a modular pipeline—exploration, consensus-based pseudo-captioning (LD-CPS), and captioner fine-tuning—to improve cross-view consistency. EPOS-VLM extends this line of work by **unifying** data association, captioning, and navigation in a single **memory-conditioned** autoregressive model rather than a multi-stage pipeline.
 
-<Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
+## EPOS-VLM
 
-### Wide visual
+We introduce **EPOS-VLM** (**Embodied Persistent Object Semantics**): a single memory-conditioned policy that explores 3D scenes and builds **consistent language representations** per object. The model conditions on the current RGB frame (with detected objects), a **top-down explored map**, and **tokenized episodic memory** (per-object caption histories and 3D positions). In one autoregressive pass it predicts **data association** (linking detections to persistent IDs or new objects), **object-level captions**, and **navigation actions**. Training uses self-supervised **pseudo-captions** from a 3D-aware aggregator (**3D-CPS**), with data collected under a **disagreement-based exploration** policy in Habitat (HM3D / Gibson).
 
-I constrained the maximum width of the text column to make sure it's readable even when the screen is wide. But images and other visuals should "break out" and take up more horizontal space: for this, try wrapping them in the `Wide` component.
+## Contributions
+
+1. A **unified, memory-conditioned** vision–language–action model for embodied captioning that jointly learns **data association**, **object-level captioning**, and **action prediction**.
+2. **Structured tokenization** of episodic object memory so a pretrained VLM can reason over **long-horizon** object histories end-to-end.
+3. An **embodied captioning dataset** with navigation trajectories and object-level pseudo-captions, plus a **manually annotated** object-level caption benchmark.
+
+## Model
+
+**EPOS-VLM** is built on a pretrained **Qwen3-VL-2B** backbone. Visual inputs are the **RGB observation** (with instance boxes and transient IDs) and the **explored map**, resized and **stacked** into a single image; **episodic memory** is serialized with special tokens (**[SCENE-START]**, **[OBJ-ID]**, **[CAP-HISTORY]**, etc.) and prepended to the language prompt. The model **autoregressively** decodes **[MATCH]** tokens (linking frame IDs to memory or **NEW_ID**), **object-level captions**, and a discrete **navigation action**. The diagram below summarizes the full pipeline.
 
 <Wide>
-  <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
+  <Figure>
+    <Picture
+      slot="figure"
+      src={vlaModel5}
+      alt="EPOS-VLM overview: episodic object memory, RGB frame with detections, explored map, and unified VLM producing data association, captions, and navigation action."
+    />
+    <span slot="caption">
+      Overview of EPOS-VLM: memory, visual inputs, and unified outputs for association, captioning, and action.
+    </span>
+  </Figure>
 </Wide>
 
-### Figure with caption
+## Results (highlights)
 
-Wrap a visual in a `Figure` component to add a caption.
+On HM3D, EPOS-VLM improves over strong VLMs and prior embodied captioning pipelines on standard caption metrics and on **cross-view semantic consistency** (SBERT cosine similarity between captions of the same object). A **without-memory** ablation drops performance sharply, showing that episodic memory is central. Compared to a dense point-cloud association baseline, EPOS-VLM achieves **similar association quality** with **much lower** inference time and memory thanks to fixed-capacity tokenized memory. An **exploration ablation** (random goals vs. frontier vs. EPOS-VLM policy) shows that **action choice** matters for consistency—not only aggregation.
 
-<Figure>
-  <Picture slot="figure" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Fragment slot="caption">A photo of two dogs running side-by-side in shallow water, lossily compressed using the [DiffC algorithm](https://jeremyiv.github.io/diffc-project-page/).</Fragment>
-</Figure>
+**Object-level captioning and consistency (HM3D test, excerpt).** Higher is better except IQR (lower is better).
 
-### Comparison slider
+| Model | CIDEr | SPICE | CS | Mean CS |
+| :---- | :---: | :---: | :-: | :---: |
+| Qwen3-VL | 0.84 | 29.88 | 60.01 | 59.65 |
+| Intern-VL | 0.98 | 30.02 | 61.18 | 55.19 |
+| Galliena et al. (ICCV’25) | 1.12 | 39.78 | 70.00 | 81.98 |
+| EPOS-VLM | **1.87** | **41.82** | **77.12** | **89.37** |
+| EPOS-VLM w/o memory | 0.85 | 27.67 | 64.62 | 52.12 |
 
-Use the `Comparison` component to compare two visuals with an interactive slider.
+**Qualitative comparison.** Over **time** along the same trajectory, **Qwen3-VL** produces **view-dependent** captions for the boxed object (sofa vs. armchair, bed vs. bench, shifting table/chair details); mistakes are **highlighted in red** in the figure. **EPOS-VLM** keeps a **stable** object-level description by conditioning on **episodic memory** and **association**.
 
-<Comparison client:idle >
-  <Picture slot="itemOne" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Picture slot="itemTwo" src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-</Comparison>
-
-### Tab panels
-
-Tab panels are a great way to display a labeled collection of related visuals without taking up too much space.
-
-<Tabs defaultValue="true">
-  <TabsList>
-    <TabsTrigger value="true">Ground truth</TabsTrigger>
-    <TabsTrigger value="diffc">DiffC (Flux-dev)</TabsTrigger>
-    <TabsTrigger value="msillm">MS-ILLM</TabsTrigger>
-  </TabsList>
-  <TabsContent value="true">
+<Wide>
+  <Figure>
     <Picture
-      src={dogsTrue}
-      alt="True photo of two dogs running side-by-side in shallow water"
+      slot="figure"
+      src={captionExample}
+      alt="Qualitative comparison over time: three rows (living room sofa, bedroom bed, dining table). Each row shows three frames with Qwen3-VL vs EPOS-VLM captions; Qwen drifts and red marks errors; EPOS-VLM stays consistent."
     />
-  </TabsContent>
-  <TabsContent value="diffc">
-    <Picture
-      src={dogsDiffc}
-      alt="Photo of two running dogs, lossily compressed using the DiffC algorithm"
-    />
-  </TabsContent>
-  <TabsContent value="msillm">
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </TabsContent>
-</Tabs>
+    <span slot="caption">
+      Caption comparison along exploration trajectories: Qwen3-VL (independent per-frame predictions) vs. EPOS-VLM (memory-conditioned). Red text marks Qwen inconsistencies.
+    </span>
+  </Figure>
+</Wide>
 
-### Carousel
+## Test-set trajectories
 
-A carousel is another useful pattern for a collection of visuals that don't necessarily have meaningful labels.
+Combined trajectory visualizations from **EPOS-VLM** rollouts on **HM3D test** scenes (one panel per episode).
 
-<Carousel>
-  <CarouselSlide>
-    <Picture src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </CarouselSlide>
-</Carousel>
+<Wide>
+  <Carousel>
+    <CarouselSlide>
+      <Picture
+        src={traj77mMEyxhs44}
+        alt="EPOS-VLM combined trajectory visualization for HM3D test scene 77mMEyxhs44."
+      />
+    </CarouselSlide>
+    <CarouselSlide>
+      <Picture
+        src={trajOEPjPNSPmzL}
+        alt="EPOS-VLM combined trajectory visualization for HM3D test scene oEPjPNSPmzL."
+      />
+    </CarouselSlide>
+    <CarouselSlide>
+      <Picture
+        src={trajGPyDUnjwZQy}
+        alt="EPOS-VLM combined trajectory visualization for HM3D test scene GPyDUnjwZQy."
+      />
+    </CarouselSlide>
+    <CarouselSlide>
+      <Picture
+        src={trajURjpCob8MGw}
+        alt="EPOS-VLM combined trajectory visualization for HM3D test scene URjpCob8MGw."
+      />
+    </CarouselSlide>
+  </Carousel>
+</Wide>
 
-## Two columns
+## Conclusion
 
-Use the two columns component to display two columns of content. In this example, the first column contains a YouTube video embed and the second column contains an interactive 3D model viewer. By default, they display side by side, but if the screen is narrow enough (for example, on mobile), they're arranged vertically.
+EPOS-VLM shows that **persistent object memory** and **end-to-end** training of captioning, association, and actions can substantially improve **object-level caption accuracy** and **viewpoint consistency** for embodied VL agents, with **efficient** inference compared to dense 3D representations. Limitations include reliance on an external segmenter and evaluation in simulated, static environments; future work includes tighter integration of perception, real-world deployment, and **dynamic** scenes.
 
-<TwoColumns>
-  <YouTubeVideo slot="left" videoId="wjZofJX0v4M" />
-  <ModelViewer slot="right" src="/BoxVertexColors.glb" alt="A cube colored with a rainbow gradient" />
-</TwoColumns>
+## BibTeX
 
-## $\LaTeX$
-
-You can also add $\LaTeX$ formulas, rendered during the build process using [$\KaTeX$](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: $a^2 + b^2 = c^2$. Or, you can write them as a block:
-
-$$
-\int_a^b f(x) dx
-$$
-
-## Citation
-
-If you copy your bibliography into `./bibliography.bib`, you can cite papers using their BibTeX keys, and they'll be automatically formatted and included in the bibliography section at the end. For example: [@vaswani2017attention]. Note that these citations are distinct from footnotes[^mynote], which show up in a separate section if you use them.
-
-[^mynote]: On the web, they should really be called "endnotes", since each page constitutes a full document.
-
-## Table
-
-Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables):
-
-| Model | Accuracy | F1 score | Training time (hours) |
-| :--- | :---: | :---: | :---: |
-| BERT-base | 0.89 | 0.87 | 4.5 |
-| RoBERTa-large | 0.92 | 0.91 | 7.2 |
-| DistilBERT | 0.86 | 0.84 | 2.1 |
-| XLNet | 0.90 | 0.89 | 6.8 |
-
-## BibTeX citation
-
-Displaying the BibTeX entry for your paper in a code block makes it easy to copy and paste.
+If you use this work, please cite [@galliena2026memory].
 
 ```bibtex
-@misc{roman2024academic,
-  author = "{Roman Hauksson}",
-  title = "Academic Project Page Template",
-  year = "2024",
-  howpublished = "\url{https://research-template.roman.technology}",
+@misc{galliena2026memory,
+  title     = {Memory-Augmented Vision--Language Agents for Persistent and Semantically Consistent Object Captioning},
+  author    = {Galliena, Tommaso and Rosa, Stefano and Apicella, Tommaso and Morerio, Pietro and Del Bue, Alessio and Natale, Lorenzo},
+  year      = {2026},
+  note      = {Under review},
 }
 ```
-
-## Bibliography
-
-[^ref]

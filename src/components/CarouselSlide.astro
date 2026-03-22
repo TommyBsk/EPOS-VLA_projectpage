@@ -1,5 +1,9 @@
-<div class="slide-viewport snap-start px-[calc(var(--slide-gap)/2)]">
-  <div class="slide w-[var(--actual-text-width)] **:my-0">
+<div
+  class="slide-viewport box-border shrink-0 snap-start overflow-hidden px-[calc(var(--slide-gap)/2)] w-[calc(var(--actual-text-width)+var(--slide-gap))]"
+>
+  <div
+    class="slide **:my-0 min-w-0 w-full overflow-hidden [&_picture]:!max-w-full [&_picture]:!min-w-0 [&_picture]:!w-full"
+  >
     <slot />
   </div>
 </div>
