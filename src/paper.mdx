@@ -51,6 +51,7 @@ import CarouselSlide from "./components/CarouselSlide.astro";
 import exploration from "./assets/exploration_vis.png";
 import vlaModel5 from "./assets/vla_model5.png";
 import captionExample from "./assets/caption_example.png";
+import performance from "./assets/performance.png";
 import trajURjpCob8MGw from "./assets/trajectories/URjpCob8MGw_combined.jpg";
 import trajGPyDUnjwZQy from "./assets/trajectories/GPyDUnjwZQy_combined.jpg";
 import trajOEPjPNSPmzL from "./assets/trajectories/oEPjPNSPmzL_combined.jpg";
@@ -69,7 +70,6 @@ import traj77mMEyxhs44 from "./assets/trajectories/77mMEyxhs44_combined.jpg";
   </Figure>
 </Wide>
 
-
 <HighlightedSection>
 
 ## **Abstract**
@@ -80,10 +80,9 @@ Vision–Language Models (VLMs) often yield inconsistent descriptions of the sam
 
 ## Motivation
 
-Humans build stable object understanding through embodied exploration; semantic consistency comes from **memory and repeated observations** across viewpoints, not from isolated frames. Off-the-shelf VLMs trained on static image–text pairs often produce **inconsistent object descriptions** as the agent moves, breaking object identity over time. Prior work improved consistency with offline aggregation or pipelines that separate exploration, association, and captioning—so the agent cannot **actively choose views** to resolve ambiguity.
+**Humans build stable object understanding through embodied exploration**: by moving, revisiting objects, and integrating observations over time, they form **consistent semantic representations**. In contrast, **vision–language models trained on static image–text pairs** treat each frame independently, often producing **inconsistent descriptions of the same object** as the viewpoint changes. This **semantic drift breaks object identity over time** and limits their use in embodied settings.  
 
-**Previous work.** In [*Embodied Image Captioning: Self-supervised Learning Agents for Spatially Coherent Image Descriptions*](https://hsp-iit.github.io/embodied-captioning/) (ICCV 2025, Highlight), we introduced a modular pipeline—exploration, consensus-based pseudo-captioning (LD-CPS), and captioner fine-tuning—to improve cross-view consistency. EPOS-VLM extends this line of work by **unifying** data association, captioning, and navigation in a single **memory-conditioned** autoregressive model rather than a multi-stage pipeline.
-
+To address this, we propose a **unified, memory-augmented approach** where **perception, memory, and action are jointly modeled**, enabling agents to **actively select informative viewpoints** and maintain **consistent object representations across time**.
 ## EPOS-VLM
 
 We introduce **EPOS-VLM** (**Embodied Persistent Object Semantics**): a single memory-conditioned policy that explores 3D scenes and builds **consistent language representations** per object. The model conditions on the current RGB frame (with detected objects), a **top-down explored map**, and **tokenized episodic memory** (per-object caption histories and 3D positions). In one autoregressive pass it predicts **data association** (linking detections to persistent IDs or new objects), **object-level captions**, and **navigation actions**. Training uses self-supervised **pseudo-captions** from a 3D-aware aggregator (**3D-CPS**), with data collected under a **disagreement-based exploration** policy in Habitat (HM3D / Gibson).
@@ -233,6 +232,19 @@ On HM3D, EPOS-VLM improves over strong VLMs and prior embodied captioning pipeli
 </table>
 
 *B4: BLEU-4; M: METEOR; RL: ROUGE-L; CI: CIDEr; SP: SPICE; CS: cosine similarity between SBERT embeddings of prediction and reference caption. Mean CS / Median CS: cosine similarity between SBERT embeddings of captions for the same object across views. IQR: interquartile range of pairwise cosine similarities (lower = more consistent).*
+
+**Inference time and memory.** Compared to a **dense point-cloud** association baseline, EPOS-VLM maintains **near-constant** per-step wall-clock time and a **small, fixed-capacity** memory representation, while the baseline’s cost **grows** over long episodes. The plots below show mean and standard deviation over HM3D test (400 steps).
+
+<Figure>
+  <Picture
+    slot="figure"
+    src={performance}
+    alt="Two plots over 400 steps on HM3D test. Left: wall-clock time in seconds; EPOS-VLM stays near flat, point-cloud baseline increases. Right: memory in GB on log scale; EPOS-VLM stays orders of magnitude below the baseline plateau near 1 GB."
+  />
+  <span slot="caption">
+    Per-step inference time (left) and memory footprint (right, log scale), averaged over HM3D test episodes: EPOS-VLM vs. dense point-cloud baseline.
+  </span>
+</Figure>
 
 **Qualitative comparison.** Over **time** along the same trajectory, **Qwen3-VL** produces **view-dependent** captions for the boxed object (sofa vs. armchair, bed vs. bench, shifting table/chair details); mistakes are **highlighted in red** in the figure. **EPOS-VLM** keeps a **stable** object-level description by conditioning on **episodic memory** and **association**.
 
